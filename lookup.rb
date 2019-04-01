@@ -2,12 +2,6 @@ require 'sinatra'
 require 'json'
 require 'open-uri'
 
-
-
-
-
-
-
 def get_values(json, cep_wanted)
   range_wanted = []
   cep_wanted = cep_wanted.to_i
