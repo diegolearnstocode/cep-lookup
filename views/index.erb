@@ -23,7 +23,7 @@
         <div class="col-lg-6 col-sm-12 right">
           <div class="params">
             <h1>
-              Hello World
+              <%= @values.nil? ? "Nothing here" : "#{@time} days to #{@city}" %>
             </h1>
           </div>
         </div>
