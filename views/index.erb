@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='UTF-8' />
+    <title>CEP Lookuo</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="body">
+      <div class="row">
+        <div class="col-lg-6 col-sm-12 left">
+          <form method="POST">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="CEP code here" name="cep">
+              <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">
+                  Search
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-lg-6 col-sm-12 right">
+          <div class="params">
+            <h1>
+              <%= @values.nil? ? "Nothing here" : "#{@time} days to #{@values['city']}" =%>
+            </h1>
+          </div>
+        </div>
+      </div>
+    </div>
+
+      <style type="text/css">
+
+        .left{
+          display : flex;
+          justify-content : center;
+          align-items : center;
+          background-color:red;
+          height : 100vh;
+          color : #FFF;
+
+        }
+        .right{
+          display : flex;
+          justify-content : center;
+          align-items : center;
+          background-color:#FFF;
+          height : 100vh;
+          color : red;
+        }
+
+        @media (max-width: 1200px) {
+          .left{
+            height:50%
+          }
+          .right{
+            height:50%
+          }
+        }
+        /* Bootstrap 4 text input with search icon */
+
+      </style>
+  </body>
+</html>
