@@ -36,6 +36,7 @@ post '/' do
   cep = params["cep"]
   @values = get_values(json,cep)
   time_from_table = @values["time"]
+  @city = @values["city"]
   time = time_from_table + 2
   @time = time.to_s
   erb :index
