@@ -35,3 +35,5 @@ post '/' do
   @time = time.to_s
   erb :index
 end
+
+#<!--<%= @values.nil? ? "Nothing here" : "#{@time} days to #{@city}" =%>-->
