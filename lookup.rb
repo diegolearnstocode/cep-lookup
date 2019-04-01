@@ -1,5 +1,11 @@
 require 'sinatra'
 require 'json'
+require 'open-uri'
+
+
+
+
+
 
 
 def get_values(json, cep_wanted)
@@ -22,8 +28,11 @@ get '/' do
 end
 
 post '/' do
-  json_string = File.read("base.json")
-  json = JSON.parse(json_string)
+  request_uri = "https://raw.githubusercontent.com/diegolearnstocode/cep_lookup/master/base.json"
+  request_query = ''
+  url = "#{request_uri}#{request_query}"
+  buffer = open(url).read
+  json = JSON.parse(buffer)
   cep = params["cep"]
   @values = get_values(json,cep)
   time_from_table = @values["time"]
