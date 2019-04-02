@@ -10,7 +10,7 @@
   <body>
     <div class="body">
       <div class="row">
-        <div class="col-lg-6 col-sm-12 left">
+        <div class="col-md-6 col-sm-12 left">
           <form method="POST">
             <div class="input-group">
               <input type="text" class="form-control" data-mask="00000000" maxlength="8" minlength="8" placeholder="CEP code here" name="cep">
@@ -22,7 +22,7 @@
             </div>
           </form>
         </div>
-        <div class="col-lg-6 col-sm-12 right">
+        <div class="col-md-6 col-sm-12 right">
           <div class="params">
             <h1>
               <%= @values.nil? ? "Nothing here" : "#{@time} days to #{@city}" %>
@@ -50,6 +50,15 @@
           background-color:#FFF;
           height : 100vh;
           color : red;
+        }
+
+        @media screen and (max-width: 768px) {
+          .left{
+            height: 50vh;
+          }
+          .right{
+            height: 50vh;
+          }
         }
         /* Bootstrap 4 text input with search icon */
 
