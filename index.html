@@ -21,6 +21,11 @@
         <div class="col-md-6 col-sm-12 right">
           <div id="loaded"></div>
           <div id="results">
+            <div class="donuts">
+              <h4 class>No donut for you.</h4>
+              <br>
+              <img src="https://vignette.wikia.nocookie.net/simpsons/images/6/64/212px-Homer_Simpson_2006.png/revision/latest?cb=20150420235112\">
+            </div>
           </div>
         </div>
       </div>
@@ -80,6 +85,11 @@
           0% { transform: rotate(0deg); }
           100% { transform: rotate(360deg); }
         }
+
+        .donuts {
+          text-align: center;
+          height: 40vh;
+        }
         /* Bootstrap 4 text input with search icon */
 
       </style>
@@ -98,7 +108,12 @@
                 return cep >= target.cep_from && cep <= target.cep_to && target.weight_from == "0,751"
                 });
                 document.getElementById("loading").id = "loaded";
-                buildResults(targetJson[0]);
+                if ((targetJson[0]) === undefined) {
+                   let resultsDiv = document.getElementById('results');
+                   resultsDiv.innerHTML = "<div class=\"donuts\"><h4 class>No donut for you.</h4><br><img src=\"https://vignette.wikia.nocookie.net/simpsons/images/6/64/212px-Homer_Simpson_2006.png/revision/latest?cb=20150420235112\"></div>";
+                } else {
+                  buildResults(targetJson[0]);
+                };
               });
             };
 
