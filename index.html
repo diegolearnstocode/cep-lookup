@@ -11,59 +11,66 @@
   <body>
     <div class="body">
       <div class="row">
-        <div class="col-md-6 col-sm-12 left">
-          <div class="input-group">
-            <input id="zipcode" type="number" class="form-control" data-mask="00000000" maxlength="8" minlength="8" placeholder="CEP code here" name="zipcode"/>
-            <div class="input-group-append">
-              <input class="btn btn-primary" type="submit" onclick="getResults()">
+          <div class="col-md-6 col-sm-12 left">
+            <div class="input-group search-box">
+              <input id="zipcode" type="number" class="form-control" data-mask="00000000" maxlength="8" minlength="8" placeholder="CEP code here" name="zipcode"/>
+              <div class="input-group-append">
+                <input class="btn btn-primary" type="submit" onclick="getResults()">
+              </div>
             </div>
+            <br>
           </div>
-        </div>
-        <div class="col-md-6 col-sm-12 right">
-          <div id="loaded"></div>
-          <div id="results">
-            <div class="donuts">
-              <h4 class>No donut for you.</h4>
-              <br>
-              <img src="https://vignette.wikia.nocookie.net/simpsons/images/6/64/212px-Homer_Simpson_2006.png/revision/latest?cb=20150420235112\">
+          <div class="col-md-6 .offset-md-6 col-sm-12 right">
+            <div id="results">
+              <div class="donuts">
+                <h4 class>No donut for you.</h4>
+                <br>
+                <img src="https://vignette.wikia.nocookie.net/simpsons/images/6/64/212px-Homer_Simpson_2006.png/revision/latest?cb=20150420235112\">
+              </div>
             </div>
+            <div id="address">
+            </div>
+            <div id="loaded"></div>
           </div>
-        </div>
       </div>
     </div>
 
       <style type="text/css">
 
-        .input-group{
+        .row {
+          height: 100vh;
+        }
+
+        .search-box{
           width: 50%;
+          margin-top: 50%;
+          margin-left: 30%
+
+        }
+
+        .input-group{
         }
 
         .left{
-          display : flex;
-          justify-content : center;
-          align-items : center;
           background-color:red;
-          height : 100vh;
           color : #FFF;
 
         }
         .right{
-          display : flex;
-          justify-content : center;
-          align-items : center;
           background-color:#FFF;
-          height : 100vh;
           color : red;
         }
 
-        @media screen and (max-width: 768px) {
-          .left{
-            height: 50vh;
-          }
-          .right{
-            height: 50vh;
-          }
+
+        #results{
+          margin-top: 35%;
+          padding: 25px;
         }
+
+        #address{
+          padding: 25px;
+        }
+
 
         #loading {
           border: 16px solid #f3f3f3;
@@ -73,6 +80,8 @@
           border-bottom: 16px solid red;
           width: 120px;
           height: 120px;
+          margin: auto;
+          text-align: center;
           -webkit-animation: spin 2s linear infinite;
           animation: spin 2s linear infinite;
         }
@@ -89,14 +98,13 @@
 
         .donuts {
           text-align: center;
-          height: 40vh;
         }
-        /* Bootstrap 4 text input with search icon */
 
       </style>
       <script type="text/javascript">
         function getResults(){
           document.getElementById("results").innerHTML = "";
+          document.getElementById("address").innerHTML = "";
           document.getElementById("loaded").id = "loading";
           fetch("https://raw.githubusercontent.com/diegolearnstocode/cep_lookup/master/base.json")
               .then(function(response) {
@@ -104,7 +112,13 @@
               })
               .then(function(myJson) {
                 let cep = document.getElementById("zipcode").value;
-                console.log(cep);
+                if ((getAddress(cep)) === undefined) {
+                   let addressDiv = document.getElementById('address');
+                   addressDiv.innerHTML = "<div class=\"donuts\"><h4 class>Doh.. Não achei endereço para esse cep :(</h4><br></div>";
+                } else {
+                  buildResults(targetJson[0]);
+                };
+                getAddress(cep);
                 let targetJson = myJson.filter(function (target) {
                 return cep >= target.cep_from && cep <= target.cep_to && target.weight_from == "0,751"
                 });
@@ -131,6 +145,24 @@
             resultsDiv.innerHTML = "<h4>Estimated Shipping Time: " + time + " dias úteis<br>Estimated Cost (smaill package): R$" + cost + "</h4>";
           };
 
+          function getAddress(cep) {
+            fetch('https://viacep.com.br/ws/'+ cep + '/json/')
+            .then(function(response) {
+              return response.json();
+            })
+            .then(function(myJson) {
+              buildAddress(myJson);
+              });
+          };
+
+          function buildAddress(addressJson) {
+            let road = addressJson.logradouro;
+            let neighbourhood = addressJson.bairro;
+            let city = addressJson.localidade;
+            let state = addressJson.uf;
+            let addressDiv = document.getElementById('address');
+            addressDiv.innerHTML = "<p>"+ road + "</p><p>" + neighbourhood + ", " + city + "</p><p>" + state + "</p>"
+          }
 
       </script>
   </body>
